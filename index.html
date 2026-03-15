@@ -8,60 +8,79 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      min-height: 100vh;
-      background: #0a0a0a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: Georgia, serif;
-      padding: 2rem;
+      background: #000;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .overlay {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
     }
 
     h1 {
       color: #c9a96e;
-      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      font-family: Georgia, serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
       font-weight: 300;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
-      text-align: center;
     }
 
     p {
-      color: #888;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.55);
+      font-family: Georgia, serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 2.5rem;
-    }
-
-    .video-wrapper {
-      width: 100%;
-      max-width: 960px;
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
-    }
-
-    video {
-      width: 100%;
-      display: block;
+      margin-top: 0.4rem;
     }
   </style>
 </head>
 <body>
-  <h1>Pavilion Square</h1>
-  <p>Luxury Residences</p>
-  <div class="video-wrapper">
-    <video
-      src="https://kaoljqciecsnafblzmci.supabase.co/storage/v1/object/public/video/Pavilion_Square_Luxury_Residences_Urban_Luxe_720P.mp4"
-      controls
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
+
+  <video
+    id="vid"
+    src="https://kaoljqciecsnafblzmci.supabase.co/storage/v1/object/public/video/Pavilion_Square_Luxury_Residences_Urban_Luxe_720P.mp4"
+    autoplay
+    muted
+    loop
+    playsinline
+  ></video>
+
+  <div class="overlay">
+    <h1>Pavilion Square</h1>
+    <p>Luxury Residences</p>
   </div>
+
+  <script>
+    const vid = document.getElementById('vid');
+
+    vid.addEventListener('canplay', () => {
+      const req =
+        vid.requestFullscreen ||
+        vid.webkitRequestFullscreen ||
+        vid.mozRequestFullScreen ||
+        vid.msRequestFullscreen;
+      if (req) req.call(vid);
+    }, { once: true });
+  </script>
+
 </body>
 </html>
